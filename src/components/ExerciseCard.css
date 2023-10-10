@@ -1,0 +1,19 @@
+@import "../theme/variables.css";
+
+.center {
+  margin: auto;
+}
+
+.circle {
+  --circle-size: 45px;
+  border-radius: 50%;
+  width: var(--circle-size);
+  height: var(--circle-size); 
+  background: var(--ion-color-light-tint);
+  border: 0px solid var(--ion-color-light-tint);
+  color: var(--ion-color-primary-contrast);
+  text-align: center;
+  transform: scale(0.6);
+  font-size: 110%;
+  padding: 9px;
+}
