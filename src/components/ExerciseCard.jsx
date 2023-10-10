@@ -11,9 +11,9 @@ import {
   IonCol,
 } from "@ionic/react";
 
-const ExerciseCard = ({ number, title, subtitle, href_url }) => {
+const ExerciseCard = ({ number, title, subtitle }) => {
   return (
-    <IonCard href={href_url}>
+    <IonCard>
       <IonCardHeader>
         <IonCardTitle>
           <IonGrid>
