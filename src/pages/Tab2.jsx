@@ -49,11 +49,6 @@ const Tab2 = () => {
             <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {/* <ExerciseCard
-          number="1"
-          title="ciao"
-          subtitle="ciaociao"
-        /> */}
         {content}
       </IonContent>
     </IonPage>
