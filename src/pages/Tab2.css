@@ -1,4 +1,16 @@
 .link {
-    color: inherit;
-    text-decoration: inherit;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.center {
+  margin: auto;
+}
+
+.datetimeCalendarContainer {
+    padding: 10px;
+}
+
+.datetimeCalendar {
+    border-radius: 30px;
 }
