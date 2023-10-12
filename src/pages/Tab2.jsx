@@ -19,7 +19,7 @@ let content = [];
 
 exerciseArray.forEach((el, i) => {
   content.push(
-    <Link key={`link${i}`}
+    <Link key={`link${i}`} className="link"
       to={{
         pathname: "/workout",
         state: { testText: "testText" }, // TBD
