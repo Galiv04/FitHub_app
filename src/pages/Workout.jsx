@@ -6,6 +6,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
+import ExerciseListElement from "../components/ExerciseListElement";
+
 import "./Tab1.css";
 
 import { useLocation } from "react-router";
@@ -28,7 +30,7 @@ const Workout = () => {
           </IonToolbar>
         </IonHeader>
         <ExploreContainer name={data.testText} />
-        <p>{data.textTest}</p>
+        <ExerciseListElement imgAlt="dummy" imgHref="https://ionicframework.com/docs/img/demos/thumbnail.svg" repsNumber="30" exerciseName="squat" />
       </IonContent>
     </IonPage>
   );
