@@ -7,7 +7,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import ExerciseListElement from "../components/ExerciseListElement";
 
 import { useLocation } from "react-router";

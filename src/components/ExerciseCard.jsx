@@ -18,8 +18,8 @@ const ExerciseCard = ({ number, title, subtitle }) => {
         <IonCardTitle>
           <IonGrid>
             <IonRow>
-              <IonCol size="auto" className="center">
-                <div className="circle center "> {number} </div>
+              <IonCol size="auto" className="center padding-right">
+                <div className="circled-number "> {number} </div>
               </IonCol>
               <IonCol>
                 {title}
