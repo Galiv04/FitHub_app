@@ -12,7 +12,7 @@ const ExerciseListElement = ({
 }) => {
   let label = isTimeConstrained
     ? `${exerciseName} ${time} s`
-    : `${repsNumber}x ${exerciseName}`;
+    : `${repsNumber} ${exerciseName}`;
   return (
     <>
       <IonList>

@@ -15,6 +15,7 @@ import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Workout from './pages/Workout';
+import ExerciseList from './pages/ExerciseList';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,6 +55,9 @@ const App: React.FC = () => (
           <Route path="/workout">
             <Workout />
           </Route>
+          <Route path="/exercise-list">
+            <ExerciseList/>
+          </Route>
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
@@ -63,9 +67,13 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={triangle} />
             <IonLabel>Tab 1</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="exercise-list" href="/exercise-list">
+            <IonIcon aria-hidden="true" icon={triangle} />
+            <IonLabel>Exercises</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="training" href="/tab2">
             <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+            <IonLabel>Training</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon aria-hidden="true" icon={square} />

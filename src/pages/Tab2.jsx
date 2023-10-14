@@ -250,7 +250,7 @@ const Tab2 = () => {
             <div className="ionIcon"></div>
           </IonItem>
         </div>
-        {content}
+        <div className="workout-container center">{content}</div>
       </IonContent>
     </IonPage>
   );

@@ -46,3 +46,8 @@
 ion-item {
     --ion-item-background: transparent;
 }
+
+.workout-container {
+    /* max-width: 400px; */
+}
+

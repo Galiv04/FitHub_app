@@ -9,33 +9,27 @@ import {
 } from "@ionic/react";
 import ExerciseListElement from "../components/ExerciseListElement";
 
-import { useLocation } from "react-router";
-
-const Workout = () => {
+const ExerciseList = () => {
   let content = [];
-  let pageName = "Workout Page";
+  let pageName = "List of Exercises";
 
-  const location = useLocation();
+  let exerciseArr = [{name: "Squat", imgHref: "https://workoutlabs.com/train/svg.php?id=84742"}];
 
-  if (!location.state) {
+  if (!exerciseArr) {
     // do not render anything if no state available
   } else {
-    const parentData = location.state ? location.state : ""; // if undefined replace with empty string
-
-    console.log(parentData.exerciseArr);
-
-    pageName = parentData.pageName;
-
-    parentData.exerciseArr.forEach((el, i) => {
+ 
+    // console.log(exerciseArr);
+    exerciseArr.forEach((el, i) => {
       content.push(
         <ExerciseListElement
           key={`${el.name}${i}`}
           imgAlt={`${el.name}${i}`}
           imgHref={el.imgHref}
-          repsNumber={el.reps + "x"}
+          repsNumber={""}
           exerciseName={el.name}
-          isTimeConstrained={el.isTimeConstrained}
-          time={el.time}
+          isTimeConstrained={false}
+          time={null}
         />
       );
     });
@@ -45,9 +39,9 @@ const Workout = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
+          {/* <IonButtons slot="start">
             <IonBackButton></IonBackButton>
-          </IonButtons>
+          </IonButtons> */}
           <IonTitle>{pageName}</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -63,4 +57,4 @@ const Workout = () => {
   );
 };
 
-export default Workout;
+export default ExerciseList;
