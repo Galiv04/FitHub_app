@@ -38,6 +38,12 @@ import './theme/variables.css';
 
 setupIonicReact();
 
+import { AuthContext } from './auth/Auth';
+import { useContext } from 'react';
+
+// const { logged } = useContext(AuthContext);
+// console.log(logged);
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>

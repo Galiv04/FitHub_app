@@ -13,7 +13,7 @@ import { useLocation } from "react-router";
 
 const Workout = () => {
   let content = [];
-  let pageName = "Workout Page";
+  let pageName = "Workout Of the Day";
 
   const location = useLocation();
 
@@ -54,7 +54,7 @@ const Workout = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Workout</IonTitle>
+            <IonTitle size="large">{pageName}</IonTitle>
           </IonToolbar>
         </IonHeader>
         {content}

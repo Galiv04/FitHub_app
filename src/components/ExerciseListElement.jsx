@@ -17,10 +17,10 @@ const ExerciseListElement = ({
     <>
       <IonList>
         <IonItem>
-          <IonThumbnail slot="start">
+          <IonThumbnail id="list-thumbnail" slot="start">
             <img alt={imgAlt} src={imgHref} />
           </IonThumbnail>
-          <IonLabel>{label}</IonLabel>
+          <IonLabel id="list-label">{label}</IonLabel>
         </IonItem>
       </IonList>
     </>
