@@ -9,13 +9,27 @@
 }
 
 .circled-number {
-  color: var(--ion-text-color);
-  border: 2px solid var(--ion-text-color);
+  /* color: var(--ion-text-color); */
+  border: 1px solid var(--ion-color-light-contrast);
   border-radius: 50%;
   font-size: 0.8rem;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 2em;
   height: 2em;
+}
+
+ion-card-title.ios {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+ion-card-subtitle.ios {
+  font-weight: 500;
+}
+
+ion-card.ios {
+  margin: 5px;
 }
