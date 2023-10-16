@@ -4,10 +4,35 @@
   /* min-height: 0px; */
 }
 
-.filter-button {
-  width: 100%;
-}
-
 .filter-title {
   font-weight: 600;
+}
+
+.horizontal-scroll-container {
+  /* width: 300px; */
+  /* padding: 0px 30px 0px 30px; */
+  height: 150px;
+  overflow: hidden;
+  /* border: 2px solid red; */
+}
+
+.horizontal-scroll-container .horizontal-scroll-content {
+  height: 160px; /* 40px - more place for scrollbar, is hidden under parent box */
+  padding: 5px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  /* border: 2px solid green; */
+}
+
+.horizontal-scroll-container .horizontal-scroll-content img {
+  height: 110px; /* 40px - more place for scrollbar, is hidden under parent box */
+  padding: 5px;
+}
+
+.horizontal-scroll-container .horizontal-scroll-content p {
+  width: 110px; /* 40px - more place for scrollbar, is hidden under parent box */
+  text-align: center;
 }

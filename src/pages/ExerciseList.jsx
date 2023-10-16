@@ -4,27 +4,30 @@ import {
   IonButtons,
   IonCol,
   IonContent,
-  IonFab,
-  IonFabButton,
-  IonFabList,
   IonGrid,
   IonHeader,
   IonIcon,
   IonInput,
   IonItem,
+  IonLabel,
   IonModal,
   IonPage,
-  IonRadio,
-  IonRadioGroup,
   IonRow,
   IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import ExerciseListElement from "../components/ExerciseListElement";
+import SelectionButton from "../components/selectionButton";
 import "./ExerciseList.css";
 
-import { colorPalette, document, filter, filterCircleSharp, globe, optionsOutline } from 'ionicons/icons';
+import {
+  airplane,
+  chevronBackCircle,
+  chevronBackCircleOutline,
+  chevronForwardCircle,
+  optionsOutline,
+} from "ionicons/icons";
 
 import firebase from "../firebase";
 import { useEffect, useRef, useState } from "react";
@@ -52,11 +55,10 @@ const ExerciseList = () => {
         />
       );
     });
-    setContent([...content])
+    setContent([...content]);
   }
 
   useEffect(() => {
-
     db.collection("exercises")
       .get()
       .then((querySnapshot) => {
@@ -75,12 +77,21 @@ const ExerciseList = () => {
   const modal = useRef(null);
   const input = useRef(null);
 
+  const [isBeginner, setIsBeginner] = useState(false);
+  const [isIntermediate, setIsIntermediate] = useState(false);
+  const [isAdvanced, setIsAdvanced] = useState(false);
+
+  const [isAbs, setIsAbs] = useState(false);
+  const [isTotal, setIsTotal] = useState(false);
+  const [isUpper, setIsUpper] = useState(false);
+  const [isLower, setIsLower] = useState(false);
+
   function confirm() {
-    modal.current?.dismiss(input.current?.value, 'confirm');
+    modal.current?.dismiss(input.current?.value, "confirm");
   }
 
   function onWillDismiss(ev) {
-    if (ev.detail.role === 'confirm') {
+    if (ev.detail.role === "confirm") {
       // setMessage(`Hello, ${ev.detail.data}!`);
     }
   }
@@ -93,7 +104,10 @@ const ExerciseList = () => {
             <IonBackButton></IonBackButton>
           </IonButtons>
           <IonTitle>{pageName}</IonTitle>
-          <IonButton fill="clear" size="large" slot="end" id="open-modal"> <IonIcon icon={optionsOutline}></IonIcon></IonButton>
+          <IonButton fill="clear" size="large" slot="end" id="open-modal">
+            {" "}
+            <IonIcon icon={optionsOutline}></IonIcon>
+          </IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -102,15 +116,22 @@ const ExerciseList = () => {
             <IonTitle size="large">{pageName}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {content ? content : <p> Loading Exercises...</p> }
 
-        <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
+        {content ? content : <p> Loading Exercises...</p>}
+
+        <IonModal
+          ref={modal}
+          trigger="open-modal"
+          onWillDismiss={(ev) => onWillDismiss(ev)}
+        >
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="start">
-                <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
+                <IonButton onClick={() => modal.current?.dismiss()}>
+                  Cancel
+                </IonButton>
               </IonButtons>
-              <IonTitle style={{textAlign: "center"}}>Filter Search</IonTitle>
+              <IonTitle style={{ textAlign: "center" }}>Filter Search</IonTitle>
               <IonButtons slot="end">
                 <IonButton strong={true} onClick={() => confirm()}>
                   Confirm
@@ -129,23 +150,183 @@ const ExerciseList = () => {
               />
             </IonItem>
 
-            <IonGrid>
-              <IonText >
+            <div id="filter-equipment">
+              <IonItem lines="none">
+                <IonIcon
+                  size="large"
+                  onClick={() => {
+                    document.getElementById(
+                      "scroll-container"
+                    ).scrollLeft += 50;
+                  }}
+                  aria-hidden="true"
+                  icon={chevronBackCircle}
+                  slot="start"
+                ></IonIcon>
+                <IonLabel>
+                  <div className="horizontal-scroll-container center">
+                    {" "}
+                    <div
+                      id="scroll-container"
+                      className="horizontal-scroll-content"
+                    >
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <p>ciao</p>
+                      </div>
+
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                      <img
+                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </IonLabel>
+                <IonIcon
+                  size="large"
+                  onClick={() => {
+                    document.getElementById(
+                      "scroll-container"
+                    ).scrollLeft -= 50;
+                  }}
+                  aria-hidden="true"
+                  icon={chevronForwardCircle}
+                  slot="end"
+                ></IonIcon>
+              </IonItem>
+            </div>
+
+            <div id="filter-difficulty">
+              <IonText>
                 <h3 className="filter-title">Difficulty</h3>
               </IonText>
-              <IonRow>
-                <IonCol >
-                  <IonButton id="ciao" className="filter-button" disabled={false} onClick={(e)=>{console.log(e.target.id);}} >Disabled</IonButton>
-                </IonCol>
-                <IonCol>
-                  <IonButton className="filter-button" disabled={true}>Disabled</IonButton>
-                </IonCol>
-              </IonRow>
-            </IonGrid>
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <div
+                      onClick={() => {
+                        setIsBeginner(!isBeginner);
+                      }}
+                    >
+                      <SelectionButton text="Beginner" isActive={isBeginner} />
+                    </div>
+                  </IonCol>
+                  <IonCol>
+                    <a
+                      onClick={() => {
+                        setIsIntermediate(!isIntermediate);
+                      }}
+                    >
+                      <SelectionButton
+                        text="intermediate"
+                        isActive={isIntermediate}
+                      />
+                    </a>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <a
+                      onClick={() => {
+                        setIsAdvanced(!isAdvanced);
+                      }}
+                    >
+                      <SelectionButton text="Advanced" isActive={isAdvanced} />
+                    </a>
+                  </IonCol>
+                  <IonCol></IonCol>
+                </IonRow>
+              </IonGrid>
+            </div>
 
+            <div id="filter-muscles">
+              <IonText>
+                <h3 className="filter-title">Muscle Group</h3>
+              </IonText>
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <div
+                      onClick={() => {
+                        setIsAbs(!isAbs);
+                      }}
+                    >
+                      <SelectionButton text="Abs" isActive={isAbs} />
+                    </div>
+                  </IonCol>
+                  <IonCol>
+                    <a
+                      onClick={() => {
+                        setIsTotal(!isTotal);
+                      }}
+                    >
+                      <SelectionButton text="Total Body" isActive={isTotal} />
+                    </a>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <a
+                      onClick={() => {
+                        setIsUpper(!isUpper);
+                      }}
+                    >
+                      <SelectionButton text="Upper Body" isActive={isUpper} />
+                    </a>
+                  </IonCol>
+                  <IonCol>
+                    <a
+                      onClick={() => {
+                        setIsLower(!isLower);
+                      }}
+                    >
+                      <SelectionButton text="Lower Body" isActive={isLower} />
+                    </a>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+            </div>
           </IonContent>
         </IonModal>
-
       </IonContent>
     </IonPage>
   );
