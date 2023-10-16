@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 const ExerciseList = () => {
   let pageName = "List of Exercises";
-  let [content, setContent] = useState([]);
+  let [content, setContent] = useState(undefined);
   let exerciseArr = [];
 
   function generateContent(exerciseArr) {
@@ -70,7 +70,7 @@ const ExerciseList = () => {
             <IonTitle size="large">{pageName}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {content}
+        {content ? content : <p> Loading Exercises...</p> }
       </IonContent>
     </IonPage>
   );
