@@ -1,0 +1,13 @@
+#open-modal {
+  /* --background: transparent; */
+  /* --color: white; */
+  /* min-height: 0px; */
+}
+
+.filter-button {
+  width: 100%;
+}
+
+.filter-title {
+  font-weight: 600;
+}
