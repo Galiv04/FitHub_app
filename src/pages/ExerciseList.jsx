@@ -157,7 +157,7 @@ const ExerciseList = () => {
                   onClick={() => {
                     document.getElementById(
                       "scroll-container"
-                    ).scrollLeft += 50;
+                    ).scrollLeft -= 50;
                   }}
                   aria-hidden="true"
                   icon={chevronBackCircle}
@@ -175,49 +175,100 @@ const ExerciseList = () => {
                           src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
                           alt=""
                         />{" "}
-                        <p>ciao</p>
+                        <IonText>
+                          <p>No equipment</p>
+                        </IonText>
                       </div>
-
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
-                      <img
-                        src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                        alt=""
-                      />
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Dumbells</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Barbell</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Pull-up bar</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Box</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Bench</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Rack</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Parallel bars</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Jumping rope</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Kettlebells</p>
+                        </IonText>
+                      </div>
+                      <div>
+                        <img
+                          src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                          alt=""
+                        />{" "}
+                        <IonText>
+                          <p>Weight plates</p>
+                        </IonText>
+                      </div>
                     </div>
                   </div>
                 </IonLabel>
@@ -226,7 +277,7 @@ const ExerciseList = () => {
                   onClick={() => {
                     document.getElementById(
                       "scroll-container"
-                    ).scrollLeft -= 50;
+                    ).scrollLeft += 50;
                   }}
                   aria-hidden="true"
                   icon={chevronForwardCircle}
@@ -257,7 +308,7 @@ const ExerciseList = () => {
                       }}
                     >
                       <SelectionButton
-                        text="intermediate"
+                        text="Intermediate"
                         isActive={isIntermediate}
                       />
                     </a>
