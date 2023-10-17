@@ -38,10 +38,32 @@ import { useEffect, useRef, useState } from "react";
 const ExerciseList = () => {
   let pageName = "List of Exercises";
   let [content, setContent] = useState(undefined);
+  let [exerciseArr, setExerciseArr] = useState([]);
 
   const db = firebase.firestore();
 
-  let exerciseArr = [];
+  useEffect(() => {
+    exerciseArr = [];
+
+    db.collection("exercises")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => ${doc.data()}`);
+          let doc_data = doc.data();
+          exerciseArr.push({
+            name: doc_data.name,
+            imgHref: doc_data.imgHref,
+            difficulty: doc_data.difficulty,
+            equipment: doc_data.equipment,
+            muscleGroup: doc_data.muscleGroup,
+          });
+        });
+        setExerciseArr([...exerciseArr]);
+        console.log(exerciseArr);
+        generateContent(exerciseArr);
+      });
+  }, []);
 
   function generateContent(exerciseArr) {
     content = [];
@@ -61,80 +83,179 @@ const ExerciseList = () => {
     setContent([...content]);
   }
 
-  useEffect(() => {
-    db.collection("exercises")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} => ${doc.data()}`);
-          let doc_data = doc.data();
-          exerciseArr.push({
-            name: doc_data.name,
-            imgHref: doc_data.imgHref,
-            difficulty: doc_data.difficulty,
-            equipment: doc_data.equipment,
-            muscleGroup: doc_data.muscleGroup,
-          });
-        });
-        generateContent(exerciseArr);
-        // console.log(exerciseArr);
-      });
-  }, []);
+  function generateFilteredContent(exerciseArr) {
+    content = [];
+    exerciseArr.forEach((el, i) => {
+      let filterLogic =
+        // difficulty block
+        ((el.difficulty == "beginner" && isBeginner) ||
+          (el.difficulty == "intermediate" && isIntermediate) ||
+          (el.difficulty == "advanced" && isAdvanced)) &&
+        // equipment block
+        ((el.equipment.some((el) => {
+          return el == "none";
+        }) &&
+          noEquipment) ||
+          (el.equipment.some((el) => {
+            return el == "dumbells";
+          }) &&
+            dumbells) ||
+          (el.equipment.some((el) => {
+            return el == "barbell";
+          }) &&
+            barbell) ||
+          (el.equipment.some((el) => {
+            return el == "pullup";
+          }) &&
+            pullup) ||
+          (el.equipment.some((el) => {
+            return el == "box";
+          }) &&
+            box) ||
+          (el.equipment.some((el) => {
+            return el == "bench";
+          }) &&
+            bench) ||
+          (el.equipment.some((el) => {
+            return el == "rack";
+          }) &&
+            rack) ||
+          (el.equipment.some((el) => {
+            return el == "parallelBars";
+          }) &&
+            parellelBars) ||
+          (el.equipment.some((el) => {
+            return el == "jumpingRope";
+          }) &&
+            jumpingRope) ||
+          (el.equipment.some((el) => {
+            return el == "kettlebells";
+          }) &&
+            kettlebells) ||
+          (el.equipment.some((el) => {
+            return el == "weightPlates";
+          }) &&
+            weightPlates)) &&
+        // muscleGroup block
+        ((el.muscleGroup.some((el) => {
+          return el == "abs";
+        }) &&
+          isAbs) ||
+          (el.muscleGroup.some((el) => {
+            return el == "total";
+          }) &&
+            isTotal) ||
+          (el.muscleGroup.some((el) => {
+            return el == "upper";
+          }) &&
+            isUpper) ||
+          (el.muscleGroup.some((el) => {
+            return el == "lower";
+          }) &&
+            isLower));
+
+      console.log(el.equipment);
+
+      if (filterLogic) {
+        content.push(
+          <ExerciseListElement
+            key={`${el.name}${i}`}
+            imgAlt={`${el.name}${i}`}
+            imgHref={el.imgHref}
+            repsNumber={""}
+            exerciseName={el.name}
+            isTimeConstrained={false}
+            time={null}
+          />
+        );
+      }
+    });
+    setContent([...content]);
+  }
 
   // Modal functions
 
   const modal = useRef(null);
-  const input = useRef(null);
+
+  let [isFilterValid, setIsFilterValid] = useState(false);
 
   // Difficulty filter
-  const [isBeginner, setIsBeginner] = useState(false);
-  const [isIntermediate, setIsIntermediate] = useState(false);
-  const [isAdvanced, setIsAdvanced] = useState(false);
+  let [isBeginner, setIsBeginner] = useState(false);
+  let [isIntermediate, setIsIntermediate] = useState(false);
+  let [isAdvanced, setIsAdvanced] = useState(false);
 
   // Muscle Group filter
-  const [isAbs, setIsAbs] = useState(false);
-  const [isTotal, setIsTotal] = useState(false);
-  const [isUpper, setIsUpper] = useState(false);
-  const [isLower, setIsLower] = useState(false);
+  let [isAbs, setIsAbs] = useState(false);
+  let [isTotal, setIsTotal] = useState(false);
+  let [isUpper, setIsUpper] = useState(false);
+  let [isLower, setIsLower] = useState(false);
 
   // Equipment filter
-  const [noEquipment, setNoEquipment] = useState(false);
-  const [dumbells, setDumbells] = useState(false);
-  const [barbell, setBarbell] = useState(false);
-  const [pullup, setPullup] = useState(false);
-  const [box, setBox] = useState(false);
-  const [bench, setBench] = useState(false);
-  const [rack, setRack] = useState(false);
-  const [parellelBars, setParallelBars] = useState(false);
-  const [jumpingRope, setJumpingRope] = useState(false);
-  const [kettlebells, setKettlebells] = useState(false);
-  const [weightPlates, setWeightPlates] = useState(false);
+  let [noEquipment, setNoEquipment] = useState(false);
+  let [dumbells, setDumbells] = useState(false);
+  let [barbell, setBarbell] = useState(false);
+  let [pullup, setPullup] = useState(false);
+  let [box, setBox] = useState(false);
+  let [bench, setBench] = useState(false);
+  let [rack, setRack] = useState(false);
+  let [parellelBars, setParallelBars] = useState(false);
+  let [jumpingRope, setJumpingRope] = useState(false);
+  let [kettlebells, setKettlebells] = useState(false);
+  let [weightPlates, setWeightPlates] = useState(false);
+
+  function refreshStates() {
+    setIsBeginner(isBeginner);
+    setIsIntermediate(isIntermediate);
+    setIsAdvanced(isAdvanced);
+
+    setIsAbs(isAbs);
+    setIsTotal(isTotal);
+    setIsUpper(isUpper);
+    setIsLower(isLower);
+
+    setNoEquipment(noEquipment);
+    setDumbells(dumbells);
+    setBarbell(barbell);
+    setPullup(pullup);
+    setBox(box);
+    setBench(bench);
+    setRack(rack);
+    setParallelBars(parellelBars);
+    setJumpingRope(jumpingRope);
+    setKettlebells(kettlebells);
+    setWeightPlates(weightPlates);
+  }
 
   function cancel() {
+    resetFilter();
+    makeFilterValid();
+    generateFilteredContent(exerciseArr);
     modal.current?.dismiss();
   }
 
   function resetFilter() {
-    setIsBeginner(false);
-    setIsIntermediate(false);
-    setIsAdvanced(false);
+    isBeginner = false;
+    isIntermediate = false;
+    isAdvanced = false;
 
-    setIsAbs(false);
-    setIsTotal(false);
-    setIsUpper(false);
-    setIsLower(false);
+    isAbs = false;
+    isTotal = false;
+    isUpper = false;
+    isLower = false;
 
-    setNoEquipment(false);
-    setDumbells(false);
-    setBarbell(false);
-    setPullup(false);
-    setBox(false);
-    setBench(false);
-    setRack(false);
-    setParallelBars(false);
-    setJumpingRope(false);
-    setKettlebells(false);
-    setWeightPlates(false);
+    noEquipment = false;
+    dumbells = false;
+    barbell = false;
+    pullup = false;
+    box = false;
+    bench = false;
+    rack = false;
+    parellelBars = false;
+    jumpingRope = false;
+    kettlebells = false;
+    weightPlates = false;
+
+    refreshStates();
   }
 
   function makeFilterValid() {
@@ -171,36 +292,49 @@ const ExerciseList = () => {
     // console.log(isEquipmentSelected);
 
     if (!isDifficultySelected) {
-      setIsBeginner(true);
-      setIsIntermediate(true);
-      setIsAdvanced(true);
+      isBeginner = true;
+      isIntermediate = true;
+      isAdvanced = true;
     }
 
     if (!isMuscleGroupSelected) {
-      setIsAbs(true);
-      setIsTotal(true);
-      setIsUpper(true);
-      setIsLower(true);
+      isAbs = true;
+      isTotal = true;
+      isUpper = true;
+      isLower = true;
     }
 
     if (!isEquipmentSelected) {
-      setNoEquipment(true);
-      setDumbells(true);
-      setBarbell(true);
-      setPullup(true);
-      setBox(true);
-      setBench(true);
-      setRack(true);
-      setParallelBars(true);
-      setJumpingRope(true);
-      setKettlebells(true);
-      setWeightPlates(true);
+      noEquipment = true;
+      dumbells = true;
+      barbell = true;
+      pullup = true;
+      box = true;
+      bench = true;
+      rack = true;
+      parellelBars = true;
+      jumpingRope = true;
+      kettlebells = true;
+      weightPlates = true;
     }
+
+    let isAnyFilterValid = [
+      isDifficultySelected,
+      isMuscleGroupSelected,
+      isEquipmentSelected,
+    ].some((el) => {
+      return el == true;
+    });
+
+    setIsFilterValid(isAnyFilterValid);
+
+    refreshStates();
   }
 
   function confirm() {
     makeFilterValid();
-    modal.current?.dismiss(input.current?.value, "confirm");
+    generateFilteredContent(exerciseArr);
+    modal.current?.dismiss();
   }
 
   function onWillDismiss(ev) {
@@ -217,7 +351,17 @@ const ExerciseList = () => {
             <IonBackButton></IonBackButton>
           </IonButtons>
           <IonTitle>{pageName}</IonTitle>
-          <IonButton fill="clear" size="large" slot="end" id="open-modal">
+          <IonButton
+            onClick={() => {
+              if (!isFilterValid) {
+                resetFilter();
+              }
+            }}
+            fill="clear"
+            size="large"
+            slot="end"
+            id="open-modal"
+          >
             {" "}
             <IonIcon icon={optionsOutline}></IonIcon>
           </IonButton>
@@ -251,16 +395,6 @@ const ExerciseList = () => {
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
-            <IonItem>
-              <IonInput
-                label="Enter your name"
-                labelPlacement="stacked"
-                ref={input}
-                type="text"
-                placeholder="Your name"
-              />
-            </IonItem>
-
             <IonButton
               id="filter-reset-button"
               onClick={resetFilter}
