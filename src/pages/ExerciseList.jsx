@@ -126,6 +126,7 @@ const ExerciseList = () => {
 
     setNoEquipment(false);
     setDumbells(false);
+    setBarbell(false);
     setPullup(false);
     setBox(false);
     setBench(false);
