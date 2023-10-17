@@ -1,17 +1,31 @@
-#open-modal {
-  /* --background: transparent; */
-  /* --color: white; */
-  /* min-height: 0px; */
+@import "../theme/variables.css";
+
+.center {
+  margin: auto;
 }
+
+/* #open-modal {
+
+} */
 
 .filter-title {
   font-weight: 600;
 }
 
+#filter-equipment ion-icon[slot="start"] {
+  margin-inline-start: -15px;
+  margin-inline-end: 5px;
+}
+
+#filter-equipment ion-icon[slot="end"] {
+  margin-inline-start: 0px;
+  margin-inline-end: -15px;
+}
+
 .horizontal-scroll-container {
   /* width: 300px; */
   /* padding: 0px 30px 0px 30px; */
-  height: 150px;
+  height: 140px;
   overflow: hidden;
   /* border: 2px solid red; */
 }
@@ -27,12 +41,33 @@
   /* border: 2px solid green; */
 }
 
-.horizontal-scroll-container .horizontal-scroll-content img {
+.horizontal-scroll-container .horizontal-scroll-content .image-with-caption {
+  padding-right: 10px;
+}
+
+.horizontal-scroll-container .horizontal-scroll-content ion-img {
+  height: 110px; /* 40px - more place for scrollbar, is hidden under parent box */
+  padding: 0px;
+  border-radius: 5px;
+}
+
+.horizontal-scroll-container
+  .horizontal-scroll-content
+  ion-img[selected="true"] {
   height: 110px; /* 40px - more place for scrollbar, is hidden under parent box */
   padding: 5px;
+  border-radius: 5px;
+  background-color: var(--ion-color-primary);
 }
 
 .horizontal-scroll-container .horizontal-scroll-content p {
   width: 110px; /* 40px - more place for scrollbar, is hidden under parent box */
   text-align: center;
+  /* border: 2px solid red; */
+}
+
+#filter-reset-button {
+  width: fit-content;
+  margin: auto;
+  padding: 10px;
 }
