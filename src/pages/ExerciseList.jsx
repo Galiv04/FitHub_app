@@ -360,7 +360,7 @@ const ExerciseList = () => {
             fill="clear"
             size="large"
             slot="end"
-            id="open-modal"
+            id="open-filter-modal"
           >
             {" "}
             <IonIcon icon={optionsOutline}></IonIcon>
@@ -378,7 +378,7 @@ const ExerciseList = () => {
 
         <IonModal
           ref={modal}
-          trigger="open-modal"
+          trigger="open-filter-modal"
           onWillDismiss={(ev) => onWillDismiss(ev)}
         >
           <IonHeader>
@@ -685,3 +685,4 @@ const ExerciseList = () => {
 };
 
 export default ExerciseList;
+  

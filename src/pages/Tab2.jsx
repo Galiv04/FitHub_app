@@ -1,20 +1,30 @@
 import {
+  IonButton,
+  IonButtons,
   IonContent,
   IonDatetime,
   IonHeader,
   IonIcon,
   IonItem,
+  IonItemDivider,
+  IonItemGroup,
   IonLabel,
   IonList,
+  IonModal,
   IonPage,
+  IonSelect,
+  IonSelectOption,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import "../theme/variables.css";
 import "./Tab2.css";
-import ExerciseCard from "../components/exerciseCard";
+import ExerciseCard from "../components/ExerciseCard";
+import ExerciseListAddWorkout from "../components/ExerciseListAddWorkout";
 import { Link } from "react-router-dom";
-import { ellipse } from "ionicons/icons";
+import { addOutline, ellipse } from "ionicons/icons";
+import { useRef } from "react";
+import { useState } from "react"; 
 
 //data to test TBD
 let workoutArray = [
@@ -208,11 +218,63 @@ weeklyDays_thisMonth.map((el, i) => {
 // console.log(highlightedDatesArr); //debug
 
 const Tab2 = () => {
+
+  // Modal functions
+
+  const addWorkoutModal = useRef(null);
+
+  function cancel() {
+    // resetAddWorkout();
+    // generateFilteredContent(exerciseArr);
+    addWorkoutModal.current?.dismiss();
+  }
+
+  function resetAddWorkout() {
+    // isBeginner = false;
+    // isIntermediate = false;
+    // isAdvanced = false;
+
+    // refreshStates();
+  }
+
+  function checkAddWorkoutIsValid() {
+
+  }
+
+  function confirm() {
+    checkAddWorkoutIsValid();
+    // generateFilteredContent(exerciseArr);
+    addWorkoutModal.current?.dismiss();
+  }
+
+  function onWillDismiss(ev) {
+    if (ev.detail.role === "confirm") {
+      // setMessage(`Hello, ${ev.detail.data}!`);
+    }
+  }
+
+  const maxNumIntervals = 10;
+  let [selectedIntervals, setSelectedIntervals] = useState(undefined);
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Workout of the Day</IonTitle>
+          <IonButton
+            // onClick={() => {
+            //   if (!isFilterValid) {
+            //     resetFilter();
+            //   }
+            // }}
+            fill="clear"
+            size="large"
+            slot="end"
+            id="open-add-modal"
+          >
+            {" "}
+            <IonIcon icon={addOutline}></IonIcon>
+          </IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -251,6 +313,69 @@ const Tab2 = () => {
           </IonItem>
         </div>
         <div className="workout-container center">{content}</div>
+
+
+        <IonModal
+          ref={addWorkoutModal}
+          trigger="open-add-modal"
+          onWillDismiss={(ev) => onWillDismiss(ev)}
+        >
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot="start">
+                <IonButton onClick={cancel}>Cancel</IonButton>
+              </IonButtons>
+              <IonTitle style={{ textAlign: "center" }}>Add Workout</IonTitle>
+              <IonButtons slot="end">
+                <IonButton strong={true} onClick={() => confirm()}>
+                  Confirm
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            {/* Modal content */}
+
+            <IonList>
+              <IonItemGroup>
+                <IonItemDivider color="primary">
+                  <IonLabel>Select Number of Intervals</IonLabel>
+                </IonItemDivider>
+                <IonItem id="select-intervals-number">
+                  <IonSelect onIonChange={(e) => { console.log(`Selected Number of Intervals: ${e.detail.value}`); setSelectedIntervals(e.detail.value) }} interface="popover" placeholder="Number of Intervals">
+                    {
+
+                      Array(maxNumIntervals).fill(0).map((_, i) => {
+                        return <IonSelectOption key={"select-intervals-number-option" + i} value={i + 1}> {i + 1} </IonSelectOption>
+                      })
+
+                    }
+                  </IonSelect>
+                </IonItem>
+              </IonItemGroup>
+
+              <IonItemGroup>
+                <IonItemDivider color="primary">
+                  <IonLabel>Interval 1</IonLabel>
+                </IonItemDivider>    
+                <ExerciseListAddWorkout/>          
+                  
+                  {/* <ExerciseListElement
+                    key={`${"name"}${1}`}
+                    imgAlt={`${"name"}${1}`}
+                    imgHref={"https://ionicframework.com/docs/img/demos/thumbnail.svg"}
+                    repsNumber={""}
+                    exerciseName={"name"}
+                    isTimeConstrained={false}
+                    time={null}
+                  /> */}
+                
+              </IonItemGroup>
+            </IonList>
+
+
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
