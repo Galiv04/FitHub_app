@@ -1,4 +1,3 @@
-
 import {
   IonBackButton,
   IonButton,
@@ -9,11 +8,9 @@ import {
   IonHeader,
   IonIcon,
   IonImg,
-  IonInput,
   IonItem,
   IonLabel,
   IonModal,
-  IonPage,
   IonRow,
   IonText,
   IonTitle,
@@ -21,7 +18,7 @@ import {
 } from "@ionic/react";
 import ExerciseListElement from "./ExerciseListElement";
 import SelectionButton from "./selectionButton";
-import "./ExerciseListAddWorkout.css";
+import "./ExerciseListComponent.css";
 
 import {
   chevronBackCircle,
@@ -32,8 +29,9 @@ import {
 
 import firebase from "../firebase";
 import { useEffect, useRef, useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
-const ExerciseListAddWorkout = () => {
+const ExerciseListComponent = ({ headerTitle }) => {
   let [content, setContent] = useState(undefined);
   let [exerciseArr, setExerciseArr] = useState([]);
 
@@ -66,15 +64,15 @@ const ExerciseListAddWorkout = () => {
     content = [];
     exerciseArr.forEach((el, i) => {
       content.push(
-        <ExerciseListElement
-          key={`${el.name}${i}`}
-          imgAlt={`${el.name}${i}`}
-          imgHref={el.imgHref}
-          repsNumber={""}
-          exerciseName={el.name}
-          isTimeConstrained={false}
-          time={null}
-        />
+          <ExerciseListElement
+            key={`${el.name}`}
+            imgAlt={`${el.name}`}
+            imgHref={el.imgHref}
+            repsNumber={""}
+            exerciseName={el.name}
+            isTimeConstrained={false}
+            time={null}
+          />
       );
     });
     setContent([...content]);
@@ -156,8 +154,8 @@ const ExerciseListAddWorkout = () => {
       if (filterLogic) {
         content.push(
           <ExerciseListElement
-            key={`${el.name}${i}`}
-            imgAlt={`${el.name}${i}`}
+            key={`${el.name}`}
+            imgAlt={`${el.name}`}
             imgHref={el.imgHref}
             repsNumber={""}
             exerciseName={el.name}
@@ -341,14 +339,14 @@ const ExerciseListAddWorkout = () => {
   }
 
   return (
-
     <>
-
-      <IonToolbar id="add-workout-toolbar">
+      <IonToolbar id="toolbar">
         <IonButtons slot="start">
           <IonBackButton></IonBackButton>
         </IonButtons>
-        <IonItem> Select Exercise
+        <IonItem>
+          {" "}
+          {headerTitle}
           <IonButton
             onClick={() => {
               if (!isFilterValid) {
@@ -362,11 +360,11 @@ const ExerciseListAddWorkout = () => {
           >
             {" "}
             <IonIcon icon={optionsOutline}></IonIcon>
-          </IonButton></IonItem>
-
+          </IonButton>
+        </IonItem>
       </IonToolbar>
 
-      {content ? content : <p> Loading Exercises...</p>}
+      {content ? content : <LoadingSpinner />}
 
       <IonModal
         ref={modal}
@@ -404,9 +402,7 @@ const ExerciseListAddWorkout = () => {
               <IonIcon
                 size="large"
                 onClick={() => {
-                  document.getElementById(
-                    "scroll-container"
-                  ).scrollLeft -= 50;
+                  document.getElementById("scroll-container").scrollLeft -= 50;
                 }}
                 aria-hidden="true"
                 icon={chevronBackCircle}
@@ -568,9 +564,7 @@ const ExerciseListAddWorkout = () => {
               <IonIcon
                 size="large"
                 onClick={() => {
-                  document.getElementById(
-                    "scroll-container"
-                  ).scrollLeft += 50;
+                  document.getElementById("scroll-container").scrollLeft += 50;
                 }}
                 aria-hidden="true"
                 icon={chevronForwardCircle}
@@ -675,4 +669,4 @@ const ExerciseListAddWorkout = () => {
   );
 };
 
-export default ExerciseListAddWorkout;
+export default ExerciseListComponent;

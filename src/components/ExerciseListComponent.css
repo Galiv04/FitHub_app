@@ -72,12 +72,12 @@
   padding: 10px;
 }
 
-#add-workout-toolbar {
+#toolbar {
   --background: transparent;
   --color: var(--ion-color-medium-shade);
 
   --border-color: transparent;
-
+  font-weight: bold;
   /* --min-height: 80px;
   --padding-top: 20px;
   --padding-bottom: 20px; */

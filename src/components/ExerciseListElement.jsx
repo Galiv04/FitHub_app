@@ -1,8 +1,10 @@
 import "./ExerciseListElement.css";
-import React from "react";
-import { IonItem, IonLabel, IonList, IonThumbnail } from "@ionic/react";
+import React, { useState } from "react";
+import { IonItem, IonLabel, IonThumbnail } from "@ionic/react";
 
 const ExerciseListElement = ({
+  selectedExercise,
+  callBackFcn,
   imgAlt,
   imgHref,
   repsNumber,
@@ -13,16 +15,17 @@ const ExerciseListElement = ({
   let label = isTimeConstrained
     ? `${exerciseName} ${time} s`
     : `${repsNumber} ${exerciseName}`;
+
   return (
     <>
-      <IonList>
-        <IonItem >
+      {/* <IonList> */}
+        <IonItem>
           <IonThumbnail id="list-thumbnail" slot="start">
             <img alt={imgAlt} src={imgHref} />
           </IonThumbnail>
           <IonLabel class="ion-text-wrap" id="list-label">{label}</IonLabel>
         </IonItem>
-      </IonList>
+      {/* </IonList> */}
     </>
   );
 };

@@ -9,7 +9,6 @@ import {
   IonItemDivider,
   IonItemGroup,
   IonLabel,
-  IonList,
   IonModal,
   IonPage,
   IonSelect,
@@ -20,7 +19,7 @@ import {
 import "../theme/variables.css";
 import "./Tab2.css";
 import ExerciseCard from "../components/ExerciseCard";
-import ExerciseListAddWorkout from "../components/ExerciseListAddWorkout";
+import ExerciseListComponent from "../components/ExerciseListComponent";
 import { Link } from "react-router-dom";
 import { addOutline, ellipse } from "ionicons/icons";
 import { useRef } from "react";
@@ -336,7 +335,7 @@ const Tab2 = () => {
           <IonContent className="ion-padding">
             {/* Modal content */}
 
-            <IonList>
+            {/* <IonList> */}
               <IonItemGroup>
                 <IonItemDivider color="primary">
                   <IonLabel>Select Number of Intervals</IonLabel>
@@ -358,7 +357,7 @@ const Tab2 = () => {
                 <IonItemDivider color="primary">
                   <IonLabel>Interval 1</IonLabel>
                 </IonItemDivider>    
-                <ExerciseListAddWorkout/>          
+                <ExerciseListComponent headerTitle="Select exercise"/>          
                   
                   {/* <ExerciseListElement
                     key={`${"name"}${1}`}
@@ -371,7 +370,7 @@ const Tab2 = () => {
                   /> */}
                 
               </IonItemGroup>
-            </IonList>
+            {/* </IonList> */}
 
 
           </IonContent>

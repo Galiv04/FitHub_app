@@ -1,10 +1,10 @@
 .container {
-  text-align: center;
+  margin: 0;
   position: absolute;
-  left: 0;
-  right: 0;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .container strong {
@@ -21,4 +21,9 @@
 
 .container a {
   text-decoration: none;
+}
+
+.container ion-spinner {
+  width: 50px;
+  height: 50px;
 }
