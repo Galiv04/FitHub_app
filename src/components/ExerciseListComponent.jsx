@@ -186,10 +186,16 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
               itemsRef.current.forEach((item, index) => {
                 if (index == i) {
                   item["data-selected"] = !item["data-selected"]; // I want to change the state of the one I am clicking
+                  item.setAttribute("data-selected", item["data-selected"])
                 } else {
-                  item["data-selected"] = false; // The rest of the item is false
+                  try {
+                    item["data-selected"] = false; // The rest of the item is false
+                    item.setAttribute("data-selected", item["data-selected"])
+                  } catch (error) {
+                    console.log("Cannot set item[data-selected] = false; The reason is that the filter is removing them from content. Fine!");
+                  }
+                  
                 }
-                item.setAttribute("data-selected", item["data-selected"])
               });
               console.log(itemsRef.current[i]["data-selected"]);
             }}

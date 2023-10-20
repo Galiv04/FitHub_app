@@ -260,7 +260,7 @@ const Tab2 = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>pageName</IonTitle>
+          <IonTitle>{pageName}</IonTitle>
           <IonButton
             // onClick={() => {
             //   if (!isFilterValid) {
@@ -280,7 +280,7 @@ const Tab2 = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">pageName</IonTitle>
+            <IonTitle size="large">{pageName}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <div className="datetimeCalendarContainer">

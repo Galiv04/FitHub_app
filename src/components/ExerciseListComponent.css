@@ -90,8 +90,9 @@
 }
 
 div[data-selected="true"] {
-  /* margin: 1px; */
-  border: 5px solid var(--ion-color-tertiary);
+  /* margin-left: 2px;
+  margin-right: 2px; */
+  border: 5px solid var(--ion-color-primary);
   border-radius: 10px;
   /* background-color: var(--ion-color-primary); */
 }

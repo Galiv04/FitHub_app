@@ -1,3 +1,4 @@
 .filter-button {
   width: 100%;
+  --border-radius: 2px;
 }
