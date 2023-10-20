@@ -56,31 +56,46 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
         });
         setExerciseArr([...exerciseArr]);
         console.log(exerciseArr);
-        generateContent(exerciseArr);
+        generateFilteredContent(exerciseArr);
       });
   }, []);
 
-  function generateContent(exerciseArr) {
-    content = [];
-    exerciseArr.forEach((el, i) => {
-      content.push(
-          <ExerciseListElement
-            key={`${el.name}`}
-            imgAlt={`${el.name}`}
-            imgHref={el.imgHref}
-            repsNumber={""}
-            exerciseName={el.name}
-            isTimeConstrained={false}
-            time={null}
-          />
-      );
-    });
-    setContent([...content]);
+  function createRefContent(el) {
+
+    content.push(
+      <ExerciseListElement
+        key={`${el.name}`}
+        imgAlt={`${el.name}`}
+        imgHref={el.imgHref}
+        repsNumber={""}
+        exerciseName={el.name}
+        isTimeConstrained={false}
+        time={null}
+      />
+    );
   }
+
+  // function generateContent(exerciseArr) {
+  //   content = [];
+  //   exerciseArr.forEach((el, _) => {
+  //     content.push(
+  //       <ExerciseListElement
+  //         key={`${el.name}`}
+  //         imgAlt={`${el.name}`}
+  //         imgHref={el.imgHref}
+  //         repsNumber={""}
+  //         exerciseName={el.name}
+  //         isTimeConstrained={false}
+  //         time={null}
+  //       />
+  //     );
+  //   });
+  //   setContent([...content]);
+  // }
 
   function generateFilteredContent(exerciseArr) {
     content = [];
-    exerciseArr.forEach((el, i) => {
+    exerciseArr.forEach((el, _) => {
       let filterLogic =
         // difficulty block
         ((el.difficulty == "beginner" && isBeginner) ||
@@ -149,9 +164,9 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
           }) &&
             isLower));
 
-      console.log(el.equipment);
+      // console.log(el.equipment);
 
-      if (filterLogic) {
+      if (filterLogic || (!filterLogic && !isFilterValid)) { // 2nd condition happens only at the beginning with no active filter, used to make a single generateContent function
         content.push(
           <ExerciseListElement
             key={`${el.name}`}
@@ -171,10 +186,11 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
   // Modal functions
 
   let modalObj = {};
-  modalObj[ modalName + '_modal'] = useRef(null);
+  modalObj[modalName + '_modal'] = useRef(null);
 
 
   let [isFilterValid, setIsFilterValid] = useState(false);
+  console.log("IsFilterValid = " + isFilterValid);
 
   // Difficulty filter
   let [isBeginner, setIsBeginner] = useState(false);
@@ -221,13 +237,15 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
     setJumpingRope(jumpingRope);
     setKettlebells(kettlebells);
     setWeightPlates(weightPlates);
+
+    setIsFilterValid(isFilterValid);
   }
 
   function cancel() {
     resetFilter();
     makeFilterValid();
     generateFilteredContent(exerciseArr);
-    modalObj[ modalName + '_modal'].current?.dismiss();
+    modalObj[modalName + '_modal'].current?.dismiss();
   }
 
   function resetFilter() {
@@ -323,7 +341,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
       return el == true;
     });
 
-    setIsFilterValid(isAnyFilterValid);
+    isFilterValid = isAnyFilterValid;
 
     refreshStates();
   }
@@ -331,7 +349,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
   function confirm() {
     makeFilterValid();
     generateFilteredContent(exerciseArr);
-    modalObj[ modalName + '_modal'].current?.dismiss();
+    modalObj[modalName + '_modal'].current?.dismiss();
   }
 
   function onWillDismiss(ev) {
@@ -369,7 +387,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
       {content ? content : <LoadingSpinner />}
 
       <IonModal
-        ref={modalObj[ modalName + '_modal']}
+        ref={modalObj[modalName + '_modal']}
         trigger={"open-filter-modal-" + modalName}
         onWillDismiss={(ev) => onWillDismiss(ev)}
       >
