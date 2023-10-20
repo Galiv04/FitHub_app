@@ -197,7 +197,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
                   
                 }
               });
-              console.log(itemsRef.current[i]["data-selected"]);
+              // console.log(itemsRef.current[i]["data-selected"]);
             }}
             alt={`${el.name}`}
             name={`${el.name}`}

@@ -8,49 +8,68 @@
 }
 
 .datetimeCalendarContainer {
-    padding: 10px;
+  padding: 10px;
 }
 
 .datetimeCalendar {
-    border-radius: 30px;
+  border-radius: 30px;
 }
 
 .ionIcon {
-    padding: 10px;
+  padding: 10px;
 }
 
 #weeklyIconColor {
-    color: var(--ion-color-secondary-shade) !important; /* same as tab2 jsx */
+  color: var(--ion-color-secondary-shade) !important; /* same as tab2 jsx */
 }
 
 #customIconColor {
-    color: var(--ion-color-warning-shade) !important; /* same as tab2 jsx */
+  color: var(--ion-color-warning-shade) !important; /* same as tab2 jsx */
 }
 
 #executedIconColor {
-    color: var(--ion-color-success) !important; /* same as tab2 jsx */
+  color: var(--ion-color-success) !important; /* same as tab2 jsx */
 }
 
 .legend-container {
-    padding: 10px;
-    width: fit-content;
+  padding: 10px;
+  width: fit-content;
 }
 
 #legend-item {
-    border-radius: 10px;
-    display: inline-block;
-    word-break:break-all; /* wrap extended text*/
-    /* border:1px solid red; /* demo */
+  border-radius: 10px;
+  display: inline-block;
+  word-break: break-all; /* wrap extended text*/
+  /* border:1px solid red; /* demo */
 }
 
 ion-item {
-    --ion-item-background: transparent;
+  --ion-item-background: transparent;
 }
 
 .workout-container {
-    /* max-width: 400px; */
+  /* max-width: 400px; */
 }
 
-#select-intervals-number{
-    /* width: fit-content; */
+#select-intervals-number {
+  /* width: fit-content; */
 }
+
+.interval-select-exercise {
+    height: 290px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+#interval-select-nav-buttons{
+    text-align: center;
+}
+
+#interval-select-exercise-button {
+    width: fit-content;
+    height: 3rem;
+    margin: auto;
+    margin-top: 20px;
+    padding-left: 10px;
+    --border-radius: 5px;
+  }

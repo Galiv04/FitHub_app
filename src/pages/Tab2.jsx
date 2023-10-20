@@ -23,7 +23,8 @@ import ExerciseListComponent from "../components/ExerciseListComponent";
 import { Link } from "react-router-dom";
 import { addOutline, ellipse } from "ionicons/icons";
 import { useRef } from "react";
-import { useState } from "react"; 
+import { useState } from "react";
+import VerticalLinearStepper from "../components/VerticalStepper";
 
 //data to test TBD
 let workoutArray = [
@@ -217,7 +218,6 @@ weeklyDays_thisMonth.map((el, i) => {
 // console.log(highlightedDatesArr); //debug
 
 const Tab2 = () => {
-
   // Modal functions
 
   const addWorkoutModal = useRef(null);
@@ -232,13 +232,10 @@ const Tab2 = () => {
     // isBeginner = false;
     // isIntermediate = false;
     // isAdvanced = false;
-
     // refreshStates();
   }
 
-  function checkAddWorkoutIsValid() {
-
-  }
+  function checkAddWorkoutIsValid() {}
 
   function confirm() {
     checkAddWorkoutIsValid();
@@ -314,7 +311,6 @@ const Tab2 = () => {
         </div>
         <div className="workout-container center">{content}</div>
 
-
         <IonModal
           ref={addWorkoutModal}
           trigger="open-add-modal"
@@ -337,43 +333,78 @@ const Tab2 = () => {
             {/* Modal content */}
 
             {/* <IonList> */}
-              <IonItemGroup>
-                <IonItemDivider color="primary">
-                  <IonLabel>Select Number of Intervals</IonLabel>
-                </IonItemDivider>
-                <IonItem id="select-intervals-number">
-                  <IonSelect onIonChange={(e) => { console.log(`Selected Number of Intervals: ${e.detail.value}`); setSelectedIntervals(e.detail.value) }} interface="popover" placeholder="Number of Intervals">
-                    {
+            <IonItemGroup>
+              <IonItemDivider color="primary">
+                <IonLabel>Select Number of Intervals</IonLabel>
+              </IonItemDivider>
+              <IonItem id="select-intervals-number">
+                <IonSelect
+                  onIonChange={(e) => {
+                    console.log(
+                      `Selected Number of Intervals: ${e.detail.value}`
+                    );
+                    setSelectedIntervals(e.detail.value);
+                  }}
+                  interface="popover"
+                  placeholder="Number of Intervals"
+                >
+                  {Array(maxNumIntervals)
+                    .fill(0)
+                    .map((_, i) => {
+                      return (
+                        <IonSelectOption
+                          key={"select-intervals-number-option" + i}
+                          value={i + 1}
+                        >
+                          {" "}
+                          {i + 1}{" "}
+                        </IonSelectOption>
+                      );
+                    })}
+                </IonSelect>
+              </IonItem>
+            </IonItemGroup>
 
-                      Array(maxNumIntervals).fill(0).map((_, i) => {
-                        return <IonSelectOption key={"select-intervals-number-option" + i} value={i + 1}> {i + 1} </IonSelectOption>
-                      })
-
-                    }
-                  </IonSelect>
-                </IonItem>
-              </IonItemGroup>
-
+            <div id="interval-1">
               <IonItemGroup>
                 <IonItemDivider color="primary">
                   <IonLabel>Interval 1</IonLabel>
-                </IonItemDivider>    
-                <ExerciseListComponent headerTitle="Select exercise" modalName={pageName}/>          
-                  
-                  {/* <ExerciseListElement
-                    key={`${"name"}${1}`}
-                    imgAlt={`${"name"}${1}`}
-                    imgHref={"https://ionicframework.com/docs/img/demos/thumbnail.svg"}
-                    repsNumber={""}
-                    exerciseName={"name"}
-                    isTimeConstrained={false}
-                    time={null}
-                  /> */}
-                
+                </IonItemDivider>
+                <div className="interval-select-exercise">
+                  <ExerciseListComponent
+                    headerTitle="Select exercise"
+                    modalName={pageName}
+                  />
+                </div>
+
+                <div id="interval-select-nav-buttons">
+                  <IonButton
+                    id="interval-select-exercise-button"
+                    onClick={""}
+                    fill="outline"
+                    // expand="block"
+                  >
+                    <IonItem lines="none">
+                      <IonLabel>Back</IonLabel>
+                    </IonItem>
+                  </IonButton>
+                  <IonButton
+                    id="interval-select-exercise-button"
+                    onClick={""}
+                    fill="outline"
+                    // expand="block"
+                  >
+                    <IonItem lines="none">
+                      <IonLabel>Next</IonLabel>
+                    </IonItem>
+                  </IonButton>
+                </div>
               </IonItemGroup>
+            </div>
+
+            <VerticalLinearStepper/>
+
             {/* </IonList> */}
-
-
           </IonContent>
         </IonModal>
       </IonContent>
