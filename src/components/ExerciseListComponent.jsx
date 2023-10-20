@@ -31,7 +31,7 @@ import firebase from "../firebase";
 import { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 
-const ExerciseListComponent = ({ headerTitle }) => {
+const ExerciseListComponent = ({ headerTitle, modalName }) => {
   let [content, setContent] = useState(undefined);
   let [exerciseArr, setExerciseArr] = useState([]);
 
@@ -170,7 +170,9 @@ const ExerciseListComponent = ({ headerTitle }) => {
 
   // Modal functions
 
-  const modal = useRef(null);
+  let modalObj = {};
+  modalObj[ modalName + '_modal'] = useRef(null);
+
 
   let [isFilterValid, setIsFilterValid] = useState(false);
 
@@ -225,7 +227,7 @@ const ExerciseListComponent = ({ headerTitle }) => {
     resetFilter();
     makeFilterValid();
     generateFilteredContent(exerciseArr);
-    modal.current?.dismiss();
+    modalObj[ modalName + '_modal'].current?.dismiss();
   }
 
   function resetFilter() {
@@ -329,7 +331,7 @@ const ExerciseListComponent = ({ headerTitle }) => {
   function confirm() {
     makeFilterValid();
     generateFilteredContent(exerciseArr);
-    modal.current?.dismiss();
+    modalObj[ modalName + '_modal'].current?.dismiss();
   }
 
   function onWillDismiss(ev) {
@@ -356,7 +358,7 @@ const ExerciseListComponent = ({ headerTitle }) => {
             fill="clear"
             size="large"
             slot="end"
-            id="open-filter-modal"
+            id={"open-filter-modal-" + modalName}
           >
             {" "}
             <IonIcon icon={optionsOutline}></IonIcon>
@@ -367,8 +369,8 @@ const ExerciseListComponent = ({ headerTitle }) => {
       {content ? content : <LoadingSpinner />}
 
       <IonModal
-        ref={modal}
-        trigger="open-filter-modal"
+        ref={modalObj[ modalName + '_modal']}
+        trigger={"open-filter-modal-" + modalName}
         onWillDismiss={(ev) => onWillDismiss(ev)}
       >
         <IonHeader>

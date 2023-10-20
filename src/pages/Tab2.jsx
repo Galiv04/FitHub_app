@@ -255,11 +255,12 @@ const Tab2 = () => {
   const maxNumIntervals = 10;
   let [selectedIntervals, setSelectedIntervals] = useState(undefined);
 
+  let pageName = "Workout of the Day";
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Workout of the Day</IonTitle>
+          <IonTitle>pageName</IonTitle>
           <IonButton
             // onClick={() => {
             //   if (!isFilterValid) {
@@ -279,7 +280,7 @@ const Tab2 = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Workout of the Day</IonTitle>
+            <IonTitle size="large">pageName</IonTitle>
           </IonToolbar>
         </IonHeader>
         <div className="datetimeCalendarContainer">
@@ -357,7 +358,7 @@ const Tab2 = () => {
                 <IonItemDivider color="primary">
                   <IonLabel>Interval 1</IonLabel>
                 </IonItemDivider>    
-                <ExerciseListComponent headerTitle="Select exercise"/>          
+                <ExerciseListComponent headerTitle="Select exercise" modalName={pageName}/>          
                   
                   {/* <ExerciseListElement
                     key={`${"name"}${1}`}

@@ -54,7 +54,7 @@ const ExerciseList = () => {
             <IonTitle size="large">{pageName}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExerciseListComponent headerTitle="Filter Exercises" />
+        <ExerciseListComponent headerTitle="Filter Exercises" modalName={pageName} />
       </IonContent>
     </IonPage>
   );
