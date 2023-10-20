@@ -35,6 +35,12 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
   let [content, setContent] = useState(undefined);
   let [exerciseArr, setExerciseArr] = useState([]);
 
+  // generate reference for list of items
+  const itemsRef = useRef([]);
+
+  let [selectedItemRef, setSelectedItemRef] = useState(undefined);
+  console.log("item state: ", selectedItemRef);
+
   const db = firebase.firestore();
 
   useEffect(() => {
@@ -54,9 +60,13 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
             muscleGroup: doc_data.muscleGroup,
           });
         });
+
+        itemsRef.current = itemsRef.current.slice(0, exerciseArr.length);
+
         setExerciseArr([...exerciseArr]);
         console.log(exerciseArr);
         generateFilteredContent(exerciseArr);
+
       });
   }, []);
 
@@ -95,7 +105,8 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
 
   function generateFilteredContent(exerciseArr) {
     content = [];
-    exerciseArr.forEach((el, _) => {
+
+    exerciseArr.forEach((el, i) => {
       let filterLogic =
         // difficulty block
         ((el.difficulty == "beginner" && isBeginner) ||
@@ -168,23 +179,43 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
 
       if (filterLogic || (!filterLogic && !isFilterValid)) { // 2nd condition happens only at the beginning with no active filter, used to make a single generateContent function
         content.push(
-          <ExerciseListElement
-            key={`${el.name}`}
-            imgAlt={`${el.name}`}
-            imgHref={el.imgHref}
-            repsNumber={""}
-            exerciseName={el.name}
-            isTimeConstrained={false}
-            time={null}
-          />
+          <div className="exerciseItem"
+            ref={el => itemsRef.current[i] = el} key={`${el.name}`}
+            onClick={(ev) => {
+              // select element -> graphic + variable
+              itemsRef.current.forEach((item, index) => {
+                if (index == i) {
+                  item["data-selected"] = !item["data-selected"]; // I want to change the state of the one I am clicking
+                } else {
+                  item["data-selected"] = false; // The rest of the item is false
+                }
+                item.setAttribute("data-selected", item["data-selected"])
+              });
+              console.log(itemsRef.current[i]["data-selected"]);
+            }}
+            alt={`${el.name}`}
+            name={`${el.name}`}
+            data-selected={false}>
+            <ExerciseListElement
+              key={`${el.name}`}
+              imgAlt={`${el.name}`}
+              imgHref={el.imgHref}
+              repsNumber={""}
+              exerciseName={el.name}
+              isTimeConstrained={false}
+              time={null}
+            />
+          </div>
         );
       }
     });
     setContent([...content]);
   }
 
-  // Modal functions
+  window.itemsRef = itemsRef
+  console.log(itemsRef);
 
+  // Modal functions
   let modalObj = {};
   modalObj[modalName + '_modal'] = useRef(null);
 
