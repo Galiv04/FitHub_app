@@ -272,8 +272,9 @@ const Tab2 = () => {
 
   useEffect(() => {
     /* inline rendering of reps / time selector */
+
+    selectionContent = [];
     if (selectedItem) {
-      selectionContent = [];
       if (selectedItem.getAttribute("name") == "Rest") {
         setSelectedReps(undefined);
         selectionContent.push(
@@ -319,8 +320,8 @@ const Tab2 = () => {
           </IonItem>
         );
       }
-      setSelectionContent([...selectionContent]);
     }
+    setSelectionContent([...selectionContent]);
   }, [selectedItem]);
 
   // console.log(selectedReps);
