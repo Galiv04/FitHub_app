@@ -31,7 +31,11 @@ import firebase from "../firebase";
 import { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 
-const ExerciseListComponent = ({ headerTitle, modalName }) => {
+const ExerciseListComponent = ({
+  headerTitle,
+  modalName,
+  handleOnclickCallback,
+}) => {
   let [content, setContent] = useState(undefined);
   let [exerciseArr, setExerciseArr] = useState([]);
 
@@ -66,24 +70,8 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
         setExerciseArr([...exerciseArr]);
         console.log(exerciseArr);
         generateFilteredContent(exerciseArr);
-
       });
   }, []);
-
-  function createRefContent(el) {
-
-    content.push(
-      <ExerciseListElement
-        key={`${el.name}`}
-        imgAlt={`${el.name}`}
-        imgHref={el.imgHref}
-        repsNumber={""}
-        exerciseName={el.name}
-        isTimeConstrained={false}
-        time={null}
-      />
-    );
-  }
 
   // function generateContent(exerciseArr) {
   //   content = [];
@@ -177,31 +165,50 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
 
       // console.log(el.equipment);
 
-      if (filterLogic || (!filterLogic && !isFilterValid)) { // 2nd condition happens only at the beginning with no active filter, used to make a single generateContent function
+      if (filterLogic || (!filterLogic && !isFilterValid)) {
+        // 2nd condition happens only at the beginning with no active filter, used to make a single generateContent function
         content.push(
-          <div className="exerciseItem"
-            ref={el => itemsRef.current[i] = el} key={`${el.name}`}
+          <div
+            className="exerciseItem"
+            ref={(el) => (itemsRef.current[i] = el)}
+            key={`${el.name}`}
             onClick={(ev) => {
               // select element -> graphic + variable
               itemsRef.current.forEach((item, index) => {
                 if (index == i) {
                   item["data-selected"] = !item["data-selected"]; // I want to change the state of the one I am clicking
-                  item.setAttribute("data-selected", item["data-selected"])
+                  item.setAttribute("data-selected", item["data-selected"]);
+
+                  //callback fcn to parent on click if component is selected
+                  if ((item["data-selected"] == true)) {
+                    try {
+                      handleOnclickCallback(item);
+                    } catch {
+                      console.log(
+                        "handleOnclickCallback function not provided to the component"
+                      );
+                    }
+                  } else {
+                    handleOnclickCallback(undefined);
+                  }
+
                 } else {
                   try {
                     item["data-selected"] = false; // The rest of the item is false
-                    item.setAttribute("data-selected", item["data-selected"])
+                    item.setAttribute("data-selected", item["data-selected"]);
                   } catch (error) {
-                    console.log("Cannot set item[data-selected] = false; The reason is that the filter is removing them from content. Fine!");
+                    console.log(
+                      "Cannot set item[data-selected] = false; The reason is that the filter is removing them from content. Fine!"
+                    );
                   }
-                  
                 }
               });
               // console.log(itemsRef.current[i]["data-selected"]);
             }}
             alt={`${el.name}`}
             name={`${el.name}`}
-            data-selected={false}>
+            data-selected={false}
+          >
             <ExerciseListElement
               key={`${el.name}`}
               imgAlt={`${el.name}`}
@@ -218,13 +225,12 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
     setContent([...content]);
   }
 
-  window.itemsRef = itemsRef
+  window.itemsRef = itemsRef;
   console.log(itemsRef);
 
   // Modal functions
   let modalObj = {};
-  modalObj[modalName + '_modal'] = useRef(null);
-
+  modalObj[modalName + "_modal"] = useRef(null);
 
   let [isFilterValid, setIsFilterValid] = useState(false);
   console.log("IsFilterValid = " + isFilterValid);
@@ -282,7 +288,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
     resetFilter();
     makeFilterValid();
     generateFilteredContent(exerciseArr);
-    modalObj[modalName + '_modal'].current?.dismiss();
+    modalObj[modalName + "_modal"].current?.dismiss();
   }
 
   function resetFilter() {
@@ -386,7 +392,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
   function confirm() {
     makeFilterValid();
     generateFilteredContent(exerciseArr);
-    modalObj[modalName + '_modal'].current?.dismiss();
+    modalObj[modalName + "_modal"].current?.dismiss();
   }
 
   function onWillDismiss(ev) {
@@ -424,7 +430,7 @@ const ExerciseListComponent = ({ headerTitle, modalName }) => {
       {content ? content : <LoadingSpinner />}
 
       <IonModal
-        ref={modalObj[modalName + '_modal']}
+        ref={modalObj[modalName + "_modal"]}
         trigger={"open-filter-modal-" + modalName}
         onWillDismiss={(ev) => onWillDismiss(ev)}
       >

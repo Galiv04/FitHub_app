@@ -22,7 +22,7 @@ import ExerciseCard from "../components/ExerciseCard";
 import ExerciseListComponent from "../components/ExerciseListComponent";
 import { Link } from "react-router-dom";
 import { addOutline, ellipse } from "ionicons/icons";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import VerticalLinearStepper from "../components/VerticalStepper";
 
@@ -250,7 +250,81 @@ const Tab2 = () => {
   }
 
   const maxNumIntervals = 10;
+
+  const repsRange = [...Array(16).keys(), 20, 25, 30, 40, 50, 100];
+  repsRange.shift();
+  // console.log(repsRange);
+
+  const restTimeRange = [15, 30, 45, 60, 90, 120, 150, 180];
+  restTimeRange.shift();
+  // console.log(restTimeRange);
+
   let [selectedIntervals, setSelectedIntervals] = useState(undefined);
+  let [intervalsData, setIntervalsData] = useState([]);
+  // intervalsData = [{exercises: [], reps: [], restTime: []}, {}, {}, ...]
+
+  let [selectedItem, setSelectedItem] = useState(undefined);
+  // console.log("selectedItem: ", selectedItem);
+  let [selectedReps, setSelectedReps] = useState(undefined);
+  let [selectedRestTime, setSelectedRestTime] = useState(undefined);
+
+  let [selectionContent, setSelectionContent] = useState(undefined);
+
+  useEffect(() => {
+    /* inline rendering of reps / time selector */
+    if (selectedItem) {
+      selectionContent = [];
+      if (selectedItem.getAttribute("name") == "Rest") {
+        setSelectedReps(undefined);
+        selectionContent.push(
+          <IonItem key="select-time" id="select-reps-number">
+            <IonSelect
+              onIonChange={(e) => {
+                console.log(`Selected Rest Time: ${e.detail.value}`);
+                setSelectedRestTime(e.detail.value);
+              }}
+              interface="popover"
+              placeholder="Rest time"
+            >
+              {restTimeRange.map((el, _) => {
+                return (
+                  <IonSelectOption key={el} value={el}>
+                    {el + "s"}
+                  </IonSelectOption>
+                );
+              })}
+            </IonSelect>
+          </IonItem>
+        );
+      } else {
+        setSelectedRestTime(undefined);
+        selectionContent.push(
+          <IonItem key="select-reps" id="select-reps-number">
+            <IonSelect
+              onIonChange={(e) => {
+                console.log(`Selected Number of Reps: ${e.detail.value}`);
+                setSelectedReps(e.detail.value);
+              }}
+              interface="popover"
+              placeholder="Reps number"
+            >
+              {repsRange.map((el, _) => {
+                return (
+                  <IonSelectOption key={el} value={el}>
+                    {el}
+                  </IonSelectOption>
+                );
+              })}
+            </IonSelect>
+          </IonItem>
+        );
+      }
+      setSelectionContent([...selectionContent]);
+    }
+  }, [selectedItem]);
+
+  // console.log(selectedReps);
+  // console.log(selectedRestTime);
 
   let pageName = "Workout of the Day";
   return (
@@ -374,8 +448,19 @@ const Tab2 = () => {
                   <ExerciseListComponent
                     headerTitle="Select exercise"
                     modalName={pageName}
+                    handleOnclickCallback={(item) => {
+                      setSelectedItem(item);
+                    }}
                   />
                 </div>
+
+                {selectionContent}
+
+                {[0].map(() => {
+                  if (selectedItem && (selectedReps || selectedRestTime)) {
+                    return <div key="ueueue"> ciao</div>;
+                  }
+                })}
 
                 <div id="interval-select-nav-buttons">
                   <IonButton
@@ -395,14 +480,14 @@ const Tab2 = () => {
                     // expand="block"
                   >
                     <IonItem lines="none">
-                      <IonLabel>Next</IonLabel>
+                      <IonLabel>Confirm</IonLabel>
                     </IonItem>
                   </IonButton>
                 </div>
               </IonItemGroup>
             </div>
 
-            <VerticalLinearStepper/>
+            <VerticalLinearStepper />
 
             {/* </IonList> */}
           </IonContent>
