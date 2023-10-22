@@ -61,11 +61,11 @@ ion-item {
     overflow-y: scroll;
 }
 
-#interval-select-nav-buttons{
+.interval-select-nav-buttons{
     text-align: center;
 }
 
-#interval-select-exercise-button {
+.interval-select-exercise-button {
     width: fit-content;
     height: 3rem;
     margin: auto;

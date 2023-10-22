@@ -25,6 +25,7 @@ import { addOutline, ellipse } from "ionicons/icons";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import VerticalLinearStepper from "../components/VerticalStepper";
+import ExerciseListElement from "../components/ExerciseListElement";
 
 //data to test TBD
 let workoutArray = [
@@ -235,7 +236,9 @@ const Tab2 = () => {
     // refreshStates();
   }
 
-  function checkAddWorkoutIsValid() {}
+  function checkAddWorkoutIsValid() {
+    //empty
+  }
 
   function confirm() {
     checkAddWorkoutIsValid();
@@ -256,26 +259,62 @@ const Tab2 = () => {
   // console.log(repsRange);
 
   const restTimeRange = [15, 30, 45, 60, 90, 120, 150, 180];
-  restTimeRange.shift();
   // console.log(restTimeRange);
 
   let [selectedIntervals, setSelectedIntervals] = useState(undefined);
+  let [currentIntervalData, setCurrentIntervalData] = useState([]);
   let [intervalsData, setIntervalsData] = useState([]);
+  // currentIntervalData = [{exercise: name, reps: number || restTime: number}, obj2, obj3, ...]
   // intervalsData = [{exercises: [], reps: [], restTime: []}, {}, {}, ...]
 
+  let [selectionStepCounter, setSelectionStepCounter] = useState(0);
   let [selectedItem, setSelectedItem] = useState(undefined);
   // console.log("selectedItem: ", selectedItem);
   let [selectedReps, setSelectedReps] = useState(undefined);
   let [selectedRestTime, setSelectedRestTime] = useState(undefined);
 
+  let [currentIntervalContent, setCurrentIntervalContent] = useState([]);
   let [selectionContent, setSelectionContent] = useState(undefined);
 
-  useEffect(() => {
-    /* inline rendering of reps / time selector */
+  function resetSelectionStates() {
+    selectedItem.setAttribute("data-selected", false);
+    setSelectedItem(undefined);
+    setSelectedReps(undefined);
+    setSelectedRestTime(undefined);
+  }
 
+  // display selected content
+  useEffect(() => {
+    currentIntervalContent = [];
+    currentIntervalData.forEach((el, i) => {
+      console.log(el.time);
+      currentIntervalContent.push(
+        <ExerciseListElement
+          key={el.name}
+          imgAlt={el.name}
+          imgHref={el.imgHref}
+          repsNumber={el.reps + "x"}
+          exerciseName={el.name}
+          isTimeConstrained={typeof el.time !== "undefined"}
+          time={el.time}
+        />
+      );
+      setCurrentIntervalContent([...currentIntervalContent]);
+    });
+  }, [currentIntervalData]);
+
+  // generate selection form
+  useEffect(() => {
     selectionContent = [];
+    var exerciseInIntervalCounter = currentIntervalData.length; // used variable
+
     if (selectedItem) {
-      if (selectedItem.getAttribute("name") == "Rest") {
+      var selectedExerciseName = selectedItem.getAttribute("name"); // used variable
+      var selectedExerciseImgHref =
+        selectedItem.children[0].children[0].children[0].src;
+
+      // console.log(selectedItem); // debug
+      if (selectedExerciseName == "Rest") {
         setSelectedReps(undefined);
         selectionContent.push(
           <IonItem key="select-time" id="select-reps-number">
@@ -320,9 +359,64 @@ const Tab2 = () => {
           </IonItem>
         );
       }
+
+      // return reset/confirm buttons and, if confirm, return back and add-exercise buttons to repeat the selection step
+      if (selectedItem && (selectedReps || selectedRestTime)) {
+        // if (selectionStepCounter<exerciseInIntervalCounter) { // we are still selecting the current exercise
+
+        selectionContent.push(
+          <div
+            key="cancel-confirm-buttons"
+            className="interval-select-nav-buttons"
+          >
+            <IonButton
+              className="interval-select-exercise-button"
+              onClick={() => {
+                // console.log(selectedItem);
+                resetSelectionStates();
+              }}
+              fill="outline"
+              // expand="block"
+            >
+              <IonItem lines="none">
+                <IonLabel>Reset</IonLabel>
+              </IonItem>
+            </IonButton>
+            <IonButton
+              className="interval-select-exercise-button"
+              onClick={() => {
+                // currentIntervalData = [{exercise: name, reps: number || time: number}, obj2, obj3, ...]
+                if (selectedReps) {
+                  currentIntervalData[selectionStepCounter] = {
+                    name: selectedExerciseName,
+                    imgHref: selectedExerciseImgHref,
+                    reps: selectedReps,
+                  };
+                } else {
+                  currentIntervalData[selectionStepCounter] = {
+                    name: selectedExerciseName,
+                    imgHref: selectedExerciseImgHref,
+                    time: selectedRestTime,
+                  };
+                }
+                console.log(currentIntervalData);
+                setCurrentIntervalData([...currentIntervalData]);
+                resetSelectionStates();
+                setSelectionStepCounter(selectionStepCounter + 1);
+              }}
+              fill="solid"
+              // expand="block"
+            >
+              <IonItem lines="none">
+                <IonLabel>Confirm</IonLabel>
+              </IonItem>
+            </IonButton>
+          </div>
+        );
+      }
     }
     setSelectionContent([...selectionContent]);
-  }, [selectedItem]);
+  }, [selectedItem, selectedReps, selectedRestTime]);
 
   // console.log(selectedReps);
   // console.log(selectedRestTime);
@@ -445,6 +539,8 @@ const Tab2 = () => {
                 <IonItemDivider color="primary">
                   <IonLabel>Interval 1</IonLabel>
                 </IonItemDivider>
+                {currentIntervalContent}
+                <br />
                 <div className="interval-select-exercise">
                   <ExerciseListComponent
                     headerTitle="Select exercise"
@@ -456,35 +552,6 @@ const Tab2 = () => {
                 </div>
 
                 {selectionContent}
-
-                {[0].map(() => {
-                  if (selectedItem && (selectedReps || selectedRestTime)) {
-                    return <div key="ueueue"> ciao</div>;
-                  }
-                })}
-
-                <div id="interval-select-nav-buttons">
-                  <IonButton
-                    id="interval-select-exercise-button"
-                    onClick={""}
-                    fill="outline"
-                    // expand="block"
-                  >
-                    <IonItem lines="none">
-                      <IonLabel>Back</IonLabel>
-                    </IonItem>
-                  </IonButton>
-                  <IonButton
-                    id="interval-select-exercise-button"
-                    onClick={""}
-                    fill="outline"
-                    // expand="block"
-                  >
-                    <IonItem lines="none">
-                      <IonLabel>Confirm</IonLabel>
-                    </IonItem>
-                  </IonButton>
-                </div>
               </IonItemGroup>
             </div>
 
