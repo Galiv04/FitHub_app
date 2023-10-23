@@ -8,6 +8,7 @@ import {
   IonItem,
   IonItemDivider,
   IonItemGroup,
+  IonItemSliding,
   IonLabel,
   IonModal,
   IonPage,
@@ -21,7 +22,7 @@ import "./Tab2.css";
 import ExerciseCard from "../components/ExerciseCard";
 import ExerciseListComponent from "../components/ExerciseListComponent";
 import { Link } from "react-router-dom";
-import { addOutline, ellipse } from "ionicons/icons";
+import { addOutline, close, ellipse } from "ionicons/icons";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import VerticalLinearStepper from "../components/VerticalStepper";
@@ -289,15 +290,26 @@ const Tab2 = () => {
     currentIntervalData.forEach((el, i) => {
       console.log(el.time);
       currentIntervalContent.push(
-        <ExerciseListElement
-          key={el.name}
-          imgAlt={el.name}
-          imgHref={el.imgHref}
-          repsNumber={el.reps + "x"}
-          exerciseName={el.name}
-          isTimeConstrained={typeof el.time !== "undefined"}
-          time={el.time}
-        />
+        <div key={el.name + i.toString()}>
+          <ExerciseListElement
+            // key={el.name}
+            imgAlt={el.name}
+            imgHref={el.imgHref}
+            repsNumber={el.reps + "x"}
+            exerciseName={el.name}
+            isTimeConstrained={typeof el.time !== "undefined"}
+            time={el.time}
+            lineStyle="none"
+            icon={close}
+            onClickFcn={() => {
+              currentIntervalData.splice(i, 1);
+              setCurrentIntervalData([...currentIntervalData]);
+              if (currentIntervalData.length == 0) {
+                setCurrentIntervalContent([]);
+              }
+            }}
+          />
+        </div>
       );
       setCurrentIntervalContent([...currentIntervalContent]);
     });
@@ -387,22 +399,22 @@ const Tab2 = () => {
               onClick={() => {
                 // currentIntervalData = [{exercise: name, reps: number || time: number}, obj2, obj3, ...]
                 if (selectedReps) {
-                  currentIntervalData[selectionStepCounter] = {
+                  currentIntervalData.push({
                     name: selectedExerciseName,
                     imgHref: selectedExerciseImgHref,
                     reps: selectedReps,
-                  };
+                  });
                 } else {
-                  currentIntervalData[selectionStepCounter] = {
+                  currentIntervalData.push({
                     name: selectedExerciseName,
                     imgHref: selectedExerciseImgHref,
                     time: selectedRestTime,
-                  };
+                  });
                 }
                 console.log(currentIntervalData);
                 setCurrentIntervalData([...currentIntervalData]);
                 resetSelectionStates();
-                setSelectionStepCounter(selectionStepCounter + 1);
+                setSelectionStepCounter(currentIntervalData.length);
               }}
               fill="solid"
               // expand="block"

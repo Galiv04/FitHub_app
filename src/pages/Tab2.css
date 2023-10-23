@@ -56,20 +56,27 @@ ion-item {
 }
 
 .interval-select-exercise {
-    height: 290px;
-    /* overflow: hidden; */
-    overflow-y: scroll;
+  height: 290px;
+  /* overflow: hidden; */
+  overflow-y: scroll;
 }
 
-.interval-select-nav-buttons{
-    text-align: center;
+.interval-select-nav-buttons {
+  text-align: center;
 }
 
 .interval-select-exercise-button {
-    width: fit-content;
-    height: 3rem;
-    margin: auto;
-    margin-top: 20px;
-    padding-left: 10px;
-    --border-radius: 5px;
-  }
+  width: fit-content;
+  height: 3rem;
+  margin: auto;
+  margin-top: 20px;
+  padding-left: 10px;
+  --border-radius: 5px;
+}
+
+.button-right {
+  text-decoration: none;
+  background: transparent;
+  font-size: 20px;
+  color: var(--ion-color-primary);
+}
