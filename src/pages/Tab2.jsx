@@ -25,8 +25,9 @@ import { Link } from "react-router-dom";
 import { addOutline, close, ellipse } from "ionicons/icons";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import VerticalLinearStepper from "../components/VerticalStepper";
+import VerticalStepper from "../components/VerticalStepper";
 import ExerciseListElement from "../components/ExerciseListElement";
+import SelectInterval from "../components/SelectInterval";
 
 //data to test TBD
 let workoutArray = [
@@ -546,7 +547,7 @@ const Tab2 = () => {
               </IonItem>
             </IonItemGroup>
 
-            <div id="interval-1">
+            {/* <div key="interval-1">
               <IonItemGroup>
                 <IonItemDivider color="primary">
                   <IonLabel>Interval 1</IonLabel>
@@ -565,9 +566,27 @@ const Tab2 = () => {
 
                 {selectionContent}
               </IonItemGroup>
-            </div>
+            </div> */}
 
-            <VerticalLinearStepper />
+            <VerticalStepper
+              steps={Array(selectedIntervals)
+                .fill(0)
+                .map((_, i) => {
+                  return {
+                    label: "Interval " + (i + 1),
+                    content: (
+                      <SelectInterval
+                        i={i + 1}
+                        currentIntervalContent={currentIntervalContent}
+                        handleOnclickFcn={(item) => {
+                          setSelectedItem(item);
+                        }}
+                        selectionContent={selectionContent}
+                      />
+                    ),
+                  };
+                })}
+            />
 
             {/* </IonList> */}
           </IonContent>

@@ -1,0 +1,5 @@
+.interval-select-exercise {
+  height: 290px;
+  /* overflow: hidden; */
+  overflow-y: scroll;
+}
